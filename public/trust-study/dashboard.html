@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust in AI-Generated Personas — Experiment Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --plum: #6B2E4A;
+    --plum-light: #8B4A66;
+    --rose: #A6707D;
+    --rose-light: #C4949F;
+    --cream: #F8F6F2;
+    --cream-dark: #EDE9E3;
+    --text: #2D2D2D;
+    --text-muted: #6B6B6B;
+    --neutral: #D4D4D4;
+    --positive: #4A8C50;
+    --negative: #8B2252;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--plum);
+    color: white;
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+  }
+  .header h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .header .subtitle {
+    font-size: 0.95rem;
+    opacity: 0.85;
+    font-weight: 300;
+  }
+  .header .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    background: rgba(255,255,255,0.15);
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  /* ── Section titles ── */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--rose);
+    margin-bottom: 0.4rem;
+  }
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── Stat Cards ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--cream-dark);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(107,46,74,0.08);
+  }
+  .stat-card .label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+  .stat-card .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--plum);
+  }
+  .stat-card .detail {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+  }
+
+  /* ── Tabs ── */
+  .tab-container { margin-bottom: 2.5rem; }
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--cream-dark);
+    margin-bottom: 1.5rem;
+  }
+  .tab-btn {
+    padding: 0.7rem 1.3rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .tab-btn.active {
+    color: var(--plum);
+    border-bottom-color: var(--plum);
+    font-weight: 600;
+  }
+  .tab-btn:hover { color: var(--plum-light); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── Comparison bars ── */
+  .comparison-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+  .comparison-label {
+    width: 120px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .bar-container {
+    flex: 1;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .bar-wrap {
+    flex: 1;
+    height: 28px;
+    background: var(--cream-dark);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.8s ease;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+  }
+  .bar-fill.virtual { background: var(--plum); }
+  .bar-fill.human { background: var(--rose); }
+  .bar-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: white;
+    font-weight: 600;
+  }
+  .delta-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    background: var(--cream-dark);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    width: 60px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.2rem;
+    font-size: 0.8rem;
+  }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .legend-dot {
+    width: 12px; height: 12px; border-radius: 3px;
+  }
+  .legend-dot.virtual { background: var(--plum); }
+  .legend-dot.human { background: var(--rose); }
+
+  /* ── Distribution chart ── */
+  .dist-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+  .dist-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .dist-label {
+    width: 90px;
+    font-size: 0.75rem;
+    text-align: right;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .dist-bars {
+    flex: 1;
+    display: flex;
+    height: 24px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .dist-segment {
+    transition: width 0.6s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: white;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  /* ── Insight cards ── */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .insight-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.3rem;
+    border-left: 4px solid var(--plum);
+  }
+  .insight-card h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+    color: var(--plum);
+  }
+  .insight-card p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* ── Method section ── */
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .method-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.2rem;
+    text-align: center;
+    border: 1px solid var(--cream-dark);
+  }
+  .method-card .icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+  .method-card h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .method-card p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    border-top: 1px solid var(--cream-dark);
+    margin-top: 2rem;
+  }
+  .footer a { color: var(--plum); text-decoration: none; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .header h1 { font-size: 1.2rem; }
+    .comparison-label { width: 80px; font-size: 0.75rem; }
+    .stat-card .value { font-size: 1.5rem; }
+    .tab-btn { padding: 0.5rem 0.8rem; font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div class="header">
+  <h1>Trust in AI-Generated Personas</h1>
+  <p class="subtitle">How virtual influencer identity affects source credibility, attitude, and purchase intention</p>
+  <div class="meta-row">
+    <span class="meta-pill">N = 86</span>
+    <span class="meta-pill">Between-Subjects</span>
+    <span class="meta-pill">Video Stimuli</span>
+    <span class="meta-pill">Spring 2026</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ══ OVERVIEW STATS ══ -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="label">Total Participants</div>
+      <div class="value">86</div>
+      <div class="detail">42 Virtual · 44 Human condition</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Credibility Gap</div>
+      <div class="value" style="color: var(--negative);">Δ 0.40</div>
+      <div class="detail">Human rated more credible (5-pt scale)</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Authenticity Gap</div>
+      <div class="value" style="color: var(--negative);">Δ 0.56</div>
+      <div class="detail">Largest item-level difference</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Purchase Intent Gap</div>
+      <div class="value" style="color: var(--text-muted);">Δ 0.16</div>
+      <div class="detail">Weak behavioral translation</div>
+    </div>
+  </div>
+
+  <!-- ══ DATA EXPLORER ══ -->
+  <div class="section-label">Data Explorer</div>
+  <div class="section-title">Construct Comparison</div>
+
+  <div class="tab-container">
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="credibility">Source Credibility</button>
+      <button class="tab-btn" data-tab="attitude">Attitude</button>
+      <button class="tab-btn" data-tab="purchase">Purchase Intention</button>
+      <button class="tab-btn" data-tab="distribution">Distributions</button>
+    </div>
+
+    <!-- Tab 1: Credibility -->
+    <div class="tab-panel active" id="tab-credibility">
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot virtual"></div> Virtual Influencer</div>
+        <div class="legend-item"><div class="legend-dot human"></div> Human Influencer</div>
+      </div>
+      <div id="credibility-bars"></div>
+    </div>
+
+    <!-- Tab 2: Attitude -->
+    <div class="tab-panel" id="tab-attitude">
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot virtual"></div> Virtual Influencer</div>
+        <div class="legend-item"><div class="legend-dot human"></div> Human Influencer</div>
+      </div>
+      <div id="attitude-bars"></div>
+    </div>
+
+    <!-- Tab 3: Purchase Intention -->
+    <div class="tab-panel" id="tab-purchase">
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot virtual"></div> Virtual Influencer</div>
+        <div class="legend-item"><div class="legend-dot human"></div> Human Influencer</div>
+      </div>
+      <div id="purchase-bars"></div>
+    </div>
+
+    <!-- Tab 4: Distribution -->
+    <div class="tab-panel" id="tab-distribution">
+      <h4 style="font-size: 0.9rem; margin-bottom: 0.3rem;">Source Credibility Response Distribution</h4>
+      <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Combined responses across all 8 credibility items
+      </p>
+
+      <div class="dist-chart">
+        <div class="dist-row">
+          <div class="dist-label">Virtual<br><span style="font-size:0.65rem;">(328 responses)</span></div>
+          <div class="dist-bars">
+            <div class="dist-segment" style="width:27.7%; background: var(--negative);">27.7%</div>
+            <div class="dist-segment" style="width:34.1%; background: var(--plum-light);">34.1%</div>
+            <div class="dist-segment" style="width:20.1%; background: var(--neutral); color: #555;">20.1%</div>
+            <div class="dist-segment" style="width:14.6%; background: var(--rose-light);">14.6%</div>
+            <div class="dist-segment" style="width:3.4%; background: var(--positive);"></div>
+          </div>
+        </div>
+        <div class="dist-row">
+          <div class="dist-label">Human<br><span style="font-size:0.65rem;">(344 responses)</span></div>
+          <div class="dist-bars">
+            <div class="dist-segment" style="width:9%; background: var(--negative);">9%</div>
+            <div class="dist-segment" style="width:31.1%; background: var(--plum-light);">31.1%</div>
+            <div class="dist-segment" style="width:40.4%; background: var(--neutral); color: #555;">40.4%</div>
+            <div class="dist-segment" style="width:18%; background: var(--rose-light);">18%</div>
+            <div class="dist-segment" style="width:1.7%; background: var(--positive);"></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:1rem; margin-top:0.8rem; flex-wrap:wrap;">
+        <span style="font-size:0.7rem; display:flex; align-items:center; gap:4px;"><span style="display:inline-block;width:10px;height:10px;background:var(--negative);border-radius:2px;"></span> Strongly Disagree</span>
+        <span style="font-size:0.7rem; display:flex; align-items:center; gap:4px;"><span style="display:inline-block;width:10px;height:10px;background:var(--plum-light);border-radius:2px;"></span> Somewhat Disagree</span>
+        <span style="font-size:0.7rem; display:flex; align-items:center; gap:4px;"><span style="display:inline-block;width:10px;height:10px;background:var(--neutral);border-radius:2px;"></span> Neither</span>
+        <span style="font-size:0.7rem; display:flex; align-items:center; gap:4px;"><span style="display:inline-block;width:10px;height:10px;background:var(--rose-light);border-radius:2px;"></span> Somewhat Agree</span>
+        <span style="font-size:0.7rem; display:flex; align-items:center; gap:4px;"><span style="display:inline-block;width:10px;height:10px;background:var(--positive);border-radius:2px;"></span> Strongly Agree</span>
+      </div>
+
+      <h4 style="font-size: 0.9rem; margin: 2rem 0 0.3rem;">Attitude Response Distribution</h4>
+      <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem;">
+        Combined responses across 4 semantic differential items
+      </p>
+      <div class="dist-chart">
+        <div class="dist-row">
+          <div class="dist-label">Virtual<br><span style="font-size:0.65rem;">(155 responses)</span></div>
+          <div class="dist-bars">
+            <div class="dist-segment" style="width:11.6%; background: var(--negative);">11.6%</div>
+            <div class="dist-segment" style="width:32.9%; background: var(--plum-light);">32.9%</div>
+            <div class="dist-segment" style="width:44.5%; background: var(--neutral); color: #555;">44.5%</div>
+            <div class="dist-segment" style="width:7.1%; background: var(--rose-light);"></div>
+            <div class="dist-segment" style="width:3.9%; background: var(--positive);"></div>
+          </div>
+        </div>
+        <div class="dist-row">
+          <div class="dist-label">Human<br><span style="font-size:0.65rem;">(167 responses)</span></div>
+          <div class="dist-bars">
+            <div class="dist-segment" style="width:3.6%; background: var(--negative);"></div>
+            <div class="dist-segment" style="width:12%; background: var(--plum-light);">12%</div>
+            <div class="dist-segment" style="width:70.7%; background: var(--neutral); color: #555;">70.7%</div>
+            <div class="dist-segment" style="width:10.2%; background: var(--rose-light);">10.2%</div>
+            <div class="dist-segment" style="width:3.6%; background: var(--positive);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ KEY INSIGHTS ══ -->
+  <div class="section-label">Analysis</div>
+  <div class="section-title">Key Insights</div>
+  <div class="insight-grid">
+    <div class="insight-card">
+      <h4>Authenticity is the core vulnerability</h4>
+      <p>The largest perception gap (Δ=0.56) was on "authentic" — not trust, not reliability. Users detect inauthenticity before they consciously distrust. For AI personas, perceived authenticity is the first gate.</p>
+    </div>
+    <div class="insight-card">
+      <h4>Attitude shift ≠ behavior shift</h4>
+      <p>Despite a substantial attitude gap (Δ=0.39), purchase intention barely moved (Δ=0.16). Negative perception of virtual influencers doesn't translate linearly to rejection. The attitude-behavior gap suggests other factors mediate purchase decisions.</p>
+    </div>
+    <div class="insight-card">
+      <h4>Polarization vs. neutrality pattern</h4>
+      <p>Virtual condition responses polarized toward disagreement (61.8% negative on credibility). Human condition clustered at neutral (40.4%). Virtual influencers don't just perform worse — they provoke stronger reactions.</p>
+    </div>
+    <div class="insight-card">
+      <h4>Design implication for AI agents</h4>
+      <p>If AI-generated personas trigger credibility penalties even in passive content (video ads), the effect is likely amplified in interactive contexts (chatbots, AI agents). Disclosure framing and authenticity signals become critical design variables.</p>
+    </div>
+  </div>
+
+  <!-- ══ METHOD ══ -->
+  <div style="margin-top: 2.5rem;">
+    <div class="section-label">Method</div>
+    <div class="section-title">Research Design</div>
+    <div class="method-grid">
+      <div class="method-card">
+        <div class="icon">🔬</div>
+        <h4>Between-Subjects</h4>
+        <p>Random assignment to Virtual or Human influencer condition</p>
+      </div>
+      <div class="method-card">
+        <div class="icon">🎬</div>
+        <h4>Video Stimuli</h4>
+        <p>Matched product review videos differing only in influencer type</p>
+      </div>
+      <div class="method-card">
+        <div class="icon">📊</div>
+        <h4>Validated Scales</h4>
+        <p>Source credibility (8 items), attitude (4 SD), purchase intention (4 items)</p>
+      </div>
+      <div class="method-card">
+        <div class="icon">👥</div>
+        <h4>86 Participants</h4>
+        <p>70-79% female, 56-70% age 18-28, college-educated sample</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div class="footer">
+  <p>Trust in AI-Generated Personas · Bella Kang · ADV 382 · UT Austin · Spring 2026</p>
+  <p style="margin-top:0.3rem;"><a href="https://bellakang017.github.io/portfolio-/">Back to Portfolio</a></p>
+</div>
+
+<script>
+// ── Tab switching ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── Data ──
+const credibilityData = [
+  { label: 'Genuine', virtual: 2.39, human: 2.73 },
+  { label: 'Seems Real', virtual: 3.10, human: 3.40 },
+  { label: 'Authentic', virtual: 2.49, human: 3.05 },
+  { label: 'Confident', virtual: 2.05, human: 2.30 },
+  { label: 'Security', virtual: 2.02, human: 2.35 },
+  { label: 'Integrity', virtual: 2.41, human: 2.88 },
+  { label: 'Reliable', virtual: 2.07, human: 2.58 },
+  { label: 'Trust', virtual: 2.00, human: 2.51 },
+];
+
+const attitudeData = [
+  { label: 'Scale 1', virtual: 2.61, human: 2.95 },
+  { label: 'Scale 2', virtual: 2.62, human: 2.98 },
+  { label: 'Scale 3', virtual: 2.59, human: 2.98 },
+  { label: 'Scale 4', virtual: 2.54, human: 3.02 },
+];
+
+const purchaseData = [
+  { label: 'Intend to buy', virtual: 2.21, human: 2.36 },
+  { label: 'Likely to purchase', virtual: 2.64, human: 2.75 },
+  { label: 'High interest', virtual: 2.31, human: 2.41 },
+  { label: 'Will probably buy', virtual: 2.48, human: 2.77 },
+];
+
+function renderBars(containerId, data, maxVal = 5) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  data.forEach(item => {
+    const delta = (item.human - item.virtual).toFixed(2);
+    const row = document.createElement('div');
+    row.className = 'comparison-row';
+    row.innerHTML = `
+      <div class="comparison-label">${item.label}</div>
+      <div class="bar-container">
+        <div style="flex:1; display:flex; flex-direction:column; gap:3px;">
+          <div class="bar-wrap">
+            <div class="bar-fill virtual" style="width:${(item.virtual/maxVal)*100}%">
+              <span class="bar-value">${item.virtual.toFixed(2)}</span>
+            </div>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar-fill human" style="width:${(item.human/maxVal)*100}%">
+              <span class="bar-value">${item.human.toFixed(2)}</span>
+            </div>
+          </div>
+        </div>
+        <div class="delta-badge">Δ ${delta}</div>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+// ── Render all tabs ──
+renderBars('credibility-bars', credibilityData);
+renderBars('attitude-bars', attitudeData);
+renderBars('purchase-bars', purchaseData);
+
+// ── Animate bars on tab switch ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const panel = document.getElementById('tab-' + btn.dataset.tab);
+    panel.querySelectorAll('.bar-fill').forEach(bar => {
+      const w = bar.style.width;
+      bar.style.width = '0%';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { bar.style.width = w; });
+      });
+    });
+  });
+});
+</script>
+
+</body>
+</html>
