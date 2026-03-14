@@ -13,7 +13,7 @@ import { MagicCard } from "@/components/ui/magic-card"
 const meta = {
   title: "Virtual Influencer Strategy",
   subtitle:
-    "Should brands use virtual influencers? We ran a controlled experiment (N=83) and built a data-driven playbook. Trust drops (d=0.55), but attitude matters more (β=.293 vs .200).",
+    "Controlled experiment (N=83): virtual influencers cost 30% less but score 0.39 lower on trust. We built a 5-action playbook to capture the savings without the penalty.",
   role: "Lead Researcher & Strategist",
   timeline: "Spring 2026",
   methods: ["Experimental Design", "Automated Analysis", "Strategy"],
@@ -42,24 +42,24 @@ const fitColors: Record<string, string> = {
 
 const strategies = [
   {
-    title: "Use VIs where attitude drives purchase, not trust",
-    body: "Fashion and gaming work. Health and finance don't. Our mediation analysis proves trust is the causal mechanism that kills conversion in trust-dependent categories.",
+    title: "Right category",
+    body: "Fashion, gaming = deploy. Health, finance = avoid. Trust mediates purchase (p=.027).",
   },
   {
-    title: "Lead with emotion, not credibility",
-    body: "Attitude predicts purchase 46% more than trust (β=.293 vs .200). Entertain first, sell second. Don't copy human influencer formats — VIs need VI-native content.",
+    title: "Emotion over credibility",
+    body: "Attitude predicts purchase 46% more than trust. Entertain first, sell second.",
   },
   {
-    title: "VI for reach, human for conversion",
-    body: "3× organic engagement at top of funnel, but 0.6% vs 3.6% on sponsored content (BMW case). Use each where they win. Hybrid funnel is the answer.",
+    title: "VI for reach, human for close",
+    body: "3× organic engagement but 0.6% vs 3.6% on sponsored (BMW case). Hybrid funnel.",
   },
   {
-    title: "Segment your audience — 4 clusters need 4 strategies",
-    body: "Believers convert directly. Curious Skeptics need transparency + entertainment. Pragmatists need human co-sign. Resistors aren't your VI audience.",
+    title: "Segment audiences",
+    body: "4 clusters, 4 strategies. Believers convert. Skeptics need transparency. Resistors — skip.",
   },
   {
-    title: "Own the disclosure — make 'AI-powered' a brand feature",
-    body: "CA AI Transparency Act (Jan 2026), FTC enforcement up 340%. Concealment triggers backlash. Noonoouri's cartoon aesthetic proves: obvious AI = no trust problem.",
+    title: "Own the disclosure",
+    body: "FTC enforcement up 340%. Concealment = backlash. Make AI-powered the brand feature.",
   },
 ]
 
@@ -171,6 +171,45 @@ export default function VIStrategyPage() {
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground/60">Tools</p>
             <p className="mt-1 text-sm text-muted-foreground">{meta.tools.join(", ")}</p>
           </div>
+        </div>
+
+        {/* Deliverables — right after hero */}
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+          <a
+            href="https://bellakang017.github.io/bella-autolab/output/ghost-deck/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-between rounded-xl border bg-foreground/[0.03] px-6 py-5 transition-colors hover:bg-foreground/[0.06]"
+          >
+            <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/[0.06]">
+                <BarChart3 className="h-5 w-5 text-foreground/70" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold">Strategy Deck</p>
+                <p className="text-xs text-muted-foreground">9 slides &middot; Interactive</p>
+              </div>
+            </div>
+            <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </a>
+
+          <a
+            href="https://bellakang017.github.io/bella-autolab/output/portfolio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-between rounded-xl border bg-foreground/[0.03] px-6 py-5 transition-colors hover:bg-foreground/[0.06]"
+          >
+            <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/[0.06]">
+                <BarChart3 className="h-5 w-5 text-foreground/70" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold">Research Portfolio</p>
+                <p className="text-xs text-muted-foreground">24 analyses &middot; Full data</p>
+              </div>
+            </div>
+            <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </a>
         </div>
       </section>
 
@@ -322,55 +361,6 @@ export default function VIStrategyPage() {
               </MagicCard>
             ))}
           </AnimatedGroup>
-        </InView>
-      </section>
-
-      {/* Links to Full Deliverables */}
-      <section className="mx-auto max-w-3xl px-6 pb-16">
-        <InView
-          variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          viewOptions={{ once: true, margin: "0px 0px -80px 0px" }}
-        >
-          <h3 className="text-2xl font-semibold tracking-tight">Deliverables</h3>
-
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            <a
-              href="https://bellakang017.github.io/bella-autolab/output/ghost-deck/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center justify-between rounded-xl border bg-foreground/[0.03] px-6 py-5 transition-colors hover:bg-foreground/[0.06]"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/[0.06]">
-                  <BarChart3 className="h-5 w-5 text-foreground/70" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold">Strategy Deck</p>
-                  <p className="text-xs text-muted-foreground">9 slides &middot; Executive summary</p>
-                </div>
-              </div>
-              <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </a>
-
-            <a
-              href="https://bellakang017.github.io/bella-autolab/output/portfolio/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center justify-between rounded-xl border bg-foreground/[0.03] px-6 py-5 transition-colors hover:bg-foreground/[0.06]"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/[0.06]">
-                  <BarChart3 className="h-5 w-5 text-foreground/70" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold">Research Portfolio</p>
-                  <p className="text-xs text-muted-foreground">24 analyses &middot; 12 findings &middot; Full data</p>
-                </div>
-              </div>
-              <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </a>
-          </div>
         </InView>
       </section>
 
