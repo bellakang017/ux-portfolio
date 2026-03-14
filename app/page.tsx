@@ -9,6 +9,13 @@ import { MagicCard } from "@/components/ui/magic-card"
 
 const projects = [
   {
+    title: "VI Strategy Playbook",
+    description: "When should a brand use a virtual influencer? Controlled experiment (N=83) + 24 automated analyses → 5-action strategy playbook with market validation.",
+    tags: ["Strategy", "Research", "Data Viz"],
+    year: "2026",
+    href: "/work/vi-strategy",
+  },
+  {
     title: "Trust\u2013Action Gap",
     description: "Between-subjects experiment (N=86) on virtual vs. human influencer credibility. Trust drops, but purchase intent doesn\u2019t.",
     tags: ["Research", "Data Viz", "UX"],
