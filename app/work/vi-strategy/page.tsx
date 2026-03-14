@@ -173,42 +173,50 @@ export default function VIStrategyPage() {
           </div>
         </div>
 
-        {/* Deliverables — right after hero */}
+        {/* Deliverables — thumbnail preview cards */}
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           <a
             href="https://bellakang017.github.io/bella-autolab/output/ghost-deck/"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center justify-between rounded-xl border bg-foreground/[0.03] px-6 py-5 transition-colors hover:bg-foreground/[0.06]"
+            className="group overflow-hidden rounded-xl border transition-all hover:shadow-lg hover:-translate-y-0.5"
           >
-            <div className="flex items-center gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/[0.06]">
-                <BarChart3 className="h-5 w-5 text-foreground/70" />
+            <div className="relative h-40 overflow-hidden bg-[#1a3a5c]">
+              <div className="absolute inset-0 flex items-center justify-center gap-2 p-4">
+                <Image src="/vi-strategy/grouped_bar_dvs.png" alt="" width={160} height={100} className="h-28 w-auto rounded border border-white/20 shadow-md" />
+                <Image src="/vi-strategy/forest_plot.png" alt="" width={160} height={100} className="h-28 w-auto rounded border border-white/20 shadow-md -translate-y-2" />
+                <Image src="/vi-strategy/mediation_diagram.png" alt="" width={160} height={100} className="h-28 w-auto rounded border border-white/20 shadow-md translate-y-1" />
               </div>
+            </div>
+            <div className="flex items-center justify-between px-5 py-4">
               <div>
                 <p className="text-sm font-semibold">Strategy Deck</p>
                 <p className="text-xs text-muted-foreground">9 slides &middot; Interactive</p>
               </div>
+              <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </div>
-            <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
 
           <a
             href="https://bellakang017.github.io/bella-autolab/output/portfolio/"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center justify-between rounded-xl border bg-foreground/[0.03] px-6 py-5 transition-colors hover:bg-foreground/[0.06]"
+            className="group overflow-hidden rounded-xl border transition-all hover:shadow-lg hover:-translate-y-0.5"
           >
-            <div className="flex items-center gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground/[0.06]">
-                <BarChart3 className="h-5 w-5 text-foreground/70" />
+            <div className="relative h-40 overflow-hidden bg-[#f7f3ef]">
+              <div className="absolute inset-0 flex items-center justify-center gap-2 p-4">
+                <Image src="/vi-strategy/violin_trust.png" alt="" width={160} height={100} className="h-28 w-auto rounded border border-black/10 shadow-md" />
+                <Image src="/vi-strategy/cluster_scatter.png" alt="" width={160} height={100} className="h-28 w-auto rounded border border-black/10 shadow-md -translate-y-2" />
+                <Image src="/vi-strategy/regression_scatter.png" alt="" width={160} height={100} className="h-28 w-auto rounded border border-black/10 shadow-md translate-y-1" />
               </div>
+            </div>
+            <div className="flex items-center justify-between px-5 py-4">
               <div>
                 <p className="text-sm font-semibold">Research Portfolio</p>
                 <p className="text-xs text-muted-foreground">24 analyses &middot; Full data</p>
               </div>
+              <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </div>
-            <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
         </div>
       </section>
