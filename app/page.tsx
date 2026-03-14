@@ -1,141 +1,188 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowUpRight } from "lucide-react"
-import { TextAnimate } from "@/components/ui/text-animate"
-import { TextEffect } from "@/components/ui/text-effect"
-import { AnimatedGroup } from "@/components/ui/animated-group"
-import { MagicCard } from "@/components/ui/magic-card"
+import { InView } from "@/components/ui/in-view"
+
+const featured = {
+  title: "Virtual Influencer Strategy",
+  description: "Should brands use virtual influencers? Controlled experiment (N=83) → 5-action playbook.",
+  tags: ["Strategy", "Research", "Data Viz"],
+  year: "2026",
+  href: "/work/vi-strategy",
+  thumbnail: "/vi-strategy/grouped_bar_dvs.png",
+  thumbnailAlt: "Group comparison chart",
+  bg: "bg-[#1a3a5c]",
+}
 
 const projects = [
   {
-    title: "VI Strategy Playbook",
-    description: "When should a brand use a virtual influencer? Controlled experiment (N=83) + 24 automated analyses → 5-action strategy playbook with market validation.",
-    tags: ["Strategy", "Research", "Data Viz"],
-    year: "2026",
-    href: "/work/vi-strategy",
-  },
-  {
-    title: "Trust\u2013Action Gap",
-    description: "Between-subjects experiment (N=86) on virtual vs. human influencer credibility. Trust drops, but purchase intent doesn\u2019t.",
-    tags: ["Research", "Data Viz", "UX"],
+    title: "Trust–Action Gap",
+    description: "Trust drops but purchase intent doesn\u2019t. Between-subjects experiment, N=86.",
+    tags: ["Research", "Data Viz"],
     year: "2025",
     href: "/work/trust-study",
+    thumbnail: "/trust-study/chart1_trust_action_gap.png",
+    thumbnailAlt: "Trust action gap chart",
   },
   {
     title: "Dasique Product Design",
-    description: "End-to-end product design for a K-Beauty brand\u2019s digital experience.",
-    tags: ["Product Design", "UX", "K-Beauty"],
+    description: "End-to-end product design for a K-Beauty brand.",
+    tags: ["Product Design", "UX"],
     year: "2023",
     href: "/work/dasique",
+    thumbnail: null,
+    thumbnailAlt: "",
   },
   {
     title: "Interview Instinct Quiz",
-    description: "Interactive learning tool that helps students practice behavioral interview responses.",
+    description: "Interactive tool for behavioral interview practice.",
     tags: ["Programming", "Education"],
     year: "2024",
     href: "/work/interview-instinct",
+    thumbnail: null,
+    thumbnailAlt: "",
   },
   {
     title: "Copilot Adoption Kit",
-    description: "Toolkit for onboarding teams to AI-assisted workflows in education settings.",
+    description: "AI-assisted workflow onboarding toolkit.",
     tags: ["AI", "Education"],
     year: "2026",
     href: "/work/copilot-kit",
+    thumbnail: null,
+    thumbnailAlt: "",
   },
 ]
 
 export default function Home() {
   return (
     <main className="min-h-svh">
-      {/* Hero */}
-      <section className="flex min-h-[85vh] flex-col items-center justify-center px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <TextAnimate
-            as="h1"
-            by="word"
-            animation="blurInUp"
-            className="text-5xl font-bold tracking-tight sm:text-7xl"
-            once
-          >
+      {/* Hero — minimal */}
+      <section className="px-6 pt-32 pb-20">
+        <div className="mx-auto max-w-4xl">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
             Bella Kang
-          </TextAnimate>
-
-          <TextEffect
-            as="p"
-            per="word"
-            preset="fade-in-blur"
-            delay={0.4}
-            className="mt-6 text-lg text-muted-foreground sm:text-xl"
-          >
-            UX Researcher & Designer
-          </TextEffect>
-
-          <TextEffect
-            as="p"
-            per="word"
-            preset="fade"
-            delay={0.8}
-            className="mt-3 text-sm text-muted-foreground/70"
-          >
-            Designing with evidence. Building with intent.
-          </TextEffect>
+          </h1>
+          <p className="mt-4 max-w-md text-base text-muted-foreground">
+            UX researcher who designs with evidence.
+          </p>
         </div>
       </section>
 
-      {/* Projects */}
-      <section className="mx-auto max-w-5xl px-6 pb-32">
-        <h2 className="mb-12 text-sm font-medium uppercase tracking-widest text-muted-foreground">
-          Selected Work
-        </h2>
-
-        <AnimatedGroup
-          preset="blur-slide"
-          className="grid gap-4 sm:grid-cols-2"
+      {/* Featured Project — large */}
+      <section className="mx-auto max-w-4xl px-6 pb-8">
+        <InView
+          variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
+          transition={{ duration: 0.4 }}
+          viewOptions={{ once: true }}
         >
-          {projects.map((project) => (
-            <Link key={project.href} href={project.href} className="group">
-              <MagicCard
-                className="rounded-xl"
-                gradientColor="#f5f5f5"
-                gradientOpacity={0.6}
-                gradientFrom="#e5e5e5"
-                gradientTo="#d4d4d4"
-              >
-                <div className="flex flex-col justify-between p-8 sm:min-h-[240px]">
-                  <div>
-                    <div className="flex items-start justify-between">
-                      <h3 className="text-xl font-semibold tracking-tight">
-                        {project.title}
-                      </h3>
-                      <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-                    </div>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {project.description}
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
+          <Link href={featured.href} className="group block">
+            <div className="overflow-hidden rounded-2xl border transition-shadow hover:shadow-lg">
+              {/* Thumbnail — large */}
+              <div className={`relative h-64 sm:h-80 overflow-hidden ${featured.bg}`}>
+                <div className="absolute inset-0 flex items-center justify-center p-8">
+                  <Image
+                    src={featured.thumbnail}
+                    alt={featured.thumbnailAlt}
+                    width={700}
+                    height={400}
+                    className="h-full w-auto rounded-lg border border-white/20 shadow-xl"
+                  />
+                </div>
+              </div>
+              {/* Info */}
+              <div className="flex items-start justify-between p-6">
+                <div>
+                  <h2 className="text-lg font-semibold tracking-tight">
+                    {featured.title}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {featured.description}
+                  </p>
+                  <div className="mt-3 flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground/60">{featured.year}</span>
+                    <div className="flex gap-1.5">
+                      {featured.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-full border px-2.5 py-0.5 text-xs text-muted-foreground"
+                          className="rounded-full border px-2 py-0.5 text-xs text-muted-foreground"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <p className="mt-6 text-sm text-muted-foreground">
-                    {project.year}
-                  </p>
                 </div>
-              </MagicCard>
-            </Link>
+                <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+              </div>
+            </div>
+          </Link>
+        </InView>
+      </section>
+
+      {/* Other Projects — 2-col grid */}
+      <section className="mx-auto max-w-4xl px-6 pb-32">
+        <div className="grid gap-4 sm:grid-cols-2">
+          {projects.map((project, i) => (
+            <InView
+              key={project.href}
+              variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
+              viewOptions={{ once: true }}
+            >
+              <Link href={project.href} className="group block">
+                <div className="overflow-hidden rounded-xl border transition-shadow hover:shadow-md">
+                  {/* Thumbnail */}
+                  <div className="relative h-40 overflow-hidden bg-muted/30">
+                    {project.thumbnail ? (
+                      <Image
+                        src={project.thumbnail}
+                        alt={project.thumbnailAlt}
+                        width={500}
+                        height={280}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center">
+                        <span className="text-3xl font-bold tracking-tight text-muted-foreground/10">
+                          {project.title.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  {/* Info */}
+                  <div className="flex items-start justify-between p-5">
+                    <div>
+                      <h3 className="text-sm font-semibold tracking-tight">
+                        {project.title}
+                      </h3>
+                      <p className="mt-1 text-xs text-muted-foreground line-clamp-2">
+                        {project.description}
+                      </p>
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground/50">{project.year}</span>
+                        {project.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="rounded-full border px-2 py-0.5 text-[10px] text-muted-foreground"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                  </div>
+                </div>
+              </Link>
+            </InView>
           ))}
-        </AnimatedGroup>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-12 text-center text-sm text-muted-foreground">
+      <footer className="border-t py-10 text-center text-xs text-muted-foreground">
         <p>&copy; {new Date().getFullYear()} Bella Kang</p>
       </footer>
     </main>
