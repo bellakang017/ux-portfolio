@@ -6,17 +6,28 @@ import { ArrowUpRight } from "lucide-react"
 import { InView } from "@/components/ui/in-view"
 
 const featured = {
-  title: "Virtual Influencer Strategy",
-  description: "Should brands use virtual influencers? Controlled experiment (N=83) → 5-action playbook.",
-  tags: ["Strategy", "Research", "Data Viz"],
+  title: "Grad Pokemon Quiz",
+  description:
+    "How do you turn awkward grad school networking into genuine connection? A gamified personality quiz disguised as a Pok\u00e9mon battle \u2014 11 screens, 7 personality types, 51 Pok\u00e9mon.",
+  tags: ["Game Design", "Product Design", "UX Engineering", "Gamification"],
   year: "2026",
-  href: "/work/vi-strategy",
-  thumbnail: "/vi-strategy/grouped_bar_dvs.png",
-  thumbnailAlt: "Group comparison chart",
-  bg: "bg-[#1a3a5c]",
+  href: "https://bella-sandbox.vercel.app/facilitator",
+  thumbnail: null,
+  thumbnailAlt: "Grad Pokemon Quiz screenshot",
+  bg: "bg-[#0a0505]",
 }
 
 const projects = [
+  {
+    title: "Virtual Influencer Strategy",
+    description:
+      "Should brands use virtual influencers? Controlled experiment (N=83) \u2192 5-action playbook.",
+    tags: ["Strategy", "Research", "Data Viz"],
+    year: "2026",
+    href: "/work/vi-strategy",
+    thumbnail: "/vi-strategy/grouped_bar_dvs.png",
+    thumbnailAlt: "Group comparison chart",
+  },
   {
     title: "Trust–Action Gap",
     description: "Trust drops but purchase intent doesn\u2019t. Between-subjects experiment, N=86.",
@@ -82,13 +93,26 @@ export default function Home() {
               {/* Thumbnail — large */}
               <div className={`relative h-64 sm:h-80 overflow-hidden ${featured.bg}`}>
                 <div className="absolute inset-0 flex items-center justify-center p-8">
-                  <Image
-                    src={featured.thumbnail}
-                    alt={featured.thumbnailAlt}
-                    width={700}
-                    height={400}
-                    className="h-full w-auto rounded-lg border border-white/20 shadow-xl"
-                  />
+                  {featured.thumbnail ? (
+                    <Image
+                      src={featured.thumbnail}
+                      alt={featured.thumbnailAlt}
+                      width={700}
+                      height={400}
+                      className="h-full w-auto rounded-lg border border-white/20 shadow-xl"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center gap-3">
+                      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" className="opacity-60">
+                        <circle cx="40" cy="40" r="36" stroke="#ef4444" strokeWidth="4" />
+                        <line x1="4" y1="40" x2="76" y2="40" stroke="#ef4444" strokeWidth="4" />
+                        <circle cx="40" cy="40" r="10" stroke="#ef4444" strokeWidth="4" fill="#0a0505" />
+                      </svg>
+                      <span className="text-sm font-medium tracking-wide text-white/40">
+                        CATCH &apos;EM ALL
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
               {/* Info */}
