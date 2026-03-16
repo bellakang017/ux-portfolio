@@ -48,12 +48,12 @@ const projects = [
   },
   {
     title: "Interview Instinct Quiz",
-    description: "Interactive tool for behavioral interview practice.",
-    tags: ["Programming", "Education"],
-    year: "2024",
-    href: "/work/interview-instinct",
+    description: "What\u2019s your interview animal? 24 scenarios reveal your instinct type \u2014 8 personality archetypes for behavioral interview coaching. Built for IWG Workshop at UT Austin.",
+    tags: ["Game Design", "UX Engineering", "Education"],
+    year: "2026",
+    href: "https://bellakang017.github.io/interview-instinct.html",
     thumbnail: null,
-    thumbnailAlt: "",
+    thumbnailAlt: "Interview Instinct Quiz",
   },
   {
     title: "Copilot Adoption Kit",
