@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#0a0505"/>
+
+  <!-- Subtle grid pattern -->
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#cc2020" stroke-width="0.3" opacity="0.08"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="450" fill="url(#grid)"/>
+
+  <!-- Radial glow -->
+  <radialGradient id="glow" cx="50%" cy="45%" r="35%">
+    <stop offset="0%" stop-color="#cc2020" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#cc2020" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="800" height="450" fill="url(#glow)"/>
+
+  <!-- Pokeball -->
+  <circle cx="400" cy="190" r="65" fill="none" stroke="#4a2a2a" stroke-width="3"/>
+  <path d="M 335 190 A 65 65 0 0 1 465 190" fill="#cc2020"/>
+  <path d="M 335 190 A 65 65 0 0 0 465 190" fill="#f0e0d0"/>
+  <line x1="335" y1="190" x2="465" y2="190" stroke="#4a2a2a" stroke-width="3"/>
+  <circle cx="400" cy="190" r="14" fill="#f0e0d0" stroke="#4a2a2a" stroke-width="3"/>
+
+  <!-- Title text -->
+  <text x="400" y="310" text-anchor="middle" font-family="monospace" font-size="18" fill="#f0e0d0" letter-spacing="2">WHAT'S YOUR</text>
+  <text x="400" y="340" text-anchor="middle" font-family="monospace" font-size="22" fill="#cc2020" font-weight="bold" letter-spacing="2">GRAD TYPE?</text>
+
+  <!-- Subtitle -->
+  <text x="400" y="380" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#8a7070">Gamified personality quiz for grad school networking</text>
+
+  <!-- Tags -->
+  <rect x="240" y="400" width="80" height="20" rx="10" fill="none" stroke="#4a2a2a" stroke-width="1"/>
+  <text x="280" y="414" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#8a7070">11 screens</text>
+
+  <rect x="330" y="400" width="70" height="20" rx="10" fill="none" stroke="#4a2a2a" stroke-width="1"/>
+  <text x="365" y="414" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#8a7070">7 types</text>
+
+  <rect x="410" y="400" width="90" height="20" rx="10" fill="none" stroke="#4a2a2a" stroke-width="1"/>
+  <text x="455" y="414" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#8a7070">51 Pok&#233;mon</text>
+
+  <rect x="510" y="400" width="70" height="20" rx="10" fill="none" stroke="#4a2a2a" stroke-width="1"/>
+  <text x="545" y="414" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#8a7070">Mobile</text>
+</svg>

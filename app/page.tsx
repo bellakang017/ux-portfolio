@@ -37,22 +37,13 @@ const projects = [
     thumbnail: "/trust-study/chart1_trust_action_gap.png",
     thumbnailAlt: "Trust action gap chart",
   },
-  {
-    title: "Dasique Product Design",
-    description: "End-to-end product design for a K-Beauty brand.",
-    tags: ["Product Design", "UX"],
-    year: "2023",
-    href: "/work/dasique",
-    thumbnail: null,
-    thumbnailAlt: "",
-  },
-  {
+{
     title: "Interview Instinct Quiz",
     description: "What\u2019s your interview animal? 24 scenarios reveal your instinct type \u2014 8 personality archetypes for behavioral interview coaching. Built for IWG Workshop at UT Austin.",
     tags: ["Game Design", "UX Engineering", "Education"],
     year: "2026",
-    href: "https://bellakang017.github.io/interview-instinct.html",
-    thumbnail: null,
+    href: "https://bellakang017.github.io/iwg-handout-v10.html",
+    thumbnail: "/interview-instinct/thumbnail.svg",
     thumbnailAlt: "Interview Instinct Quiz",
   },
   {
