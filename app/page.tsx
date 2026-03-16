@@ -11,7 +11,7 @@ const featured = {
     "How do you turn awkward grad school networking into genuine connection? A gamified personality quiz disguised as a Pok\u00e9mon battle \u2014 11 screens, 7 personality types, 51 Pok\u00e9mon.",
   tags: ["Game Design", "Product Design", "UX Engineering", "Gamification"],
   year: "2026",
-  href: "https://bella-sandbox.vercel.app/facilitator",
+  href: "https://bella-sandbox.vercel.app/case-study",
   thumbnail: null,
   thumbnailAlt: "Grad Pokemon Quiz screenshot",
   bg: "bg-[#0a0505]",
